@@ -1,17 +1,26 @@
 @import url("https://fonts.googleapis.com/css2?family=Caveat&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+
 table {
-  border: solid 10px black;
+  border: none;
   max-width: 500px;
   margin: 0 auto;
+  border-spacing: 0px;
+  border-collapse: separate;
 }
 td {
   border: 5px solid black;
   height: 150px;
   width: 150px;
+  opacity: 0;
 }
-td::after {
-  content: "";
-  box-shadow: 5px 5px 5px 5px #000000;
+
+td:nth-child(3) {
+  border-left: 5px solid black;
+}
+
+td:nth-child(2) {
+  border-left: 5px solid black;
 }
 
 .board {
@@ -50,4 +59,64 @@ td::after {
 
 .debug {
   display: none;
+}
+
+.fade-in {
+  opacity: 0;
+  animation-name: fadeInOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-delay: 0.25s;
+  animation-duration: 1s;
+}
+
+@keyframes fadeInOpacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 500px) {
+  .subtitle {
+    margin: 30px 0;
+  }
+
+  .footer {
+    margin-top: 30px !important;
+  }
+
+  td {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 30%;
+
+  &:last-of-type {
+    flex: 70%;
+  }
+}
+
+div.rodal-dialog {
+  font-family: "Pacifico", cursive;
+  color: rgb(0, 151, 45);
+
+  h3 {
+    font-weight: bold;
+    font-size: 40px;
+  }
+
+  p {
+    font-weight: 400;
+    font-size: 25px;
+  }
 }
