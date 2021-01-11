@@ -1,10 +1,16 @@
-import React from "React";
+import React from "react";
+import "./marker.scss";
+
 
 const Marker = (props) => {
-  const { symbol } = this.props;
+  const { player, display } = props;
   return (
-    <div>
-      <i className={"fa fa-circle"} />
+    <div className={`${player} ${display}`}>
+      {player === "Player One" ? (
+        <img alt="x" src={x} />
+      ) : (
+        <img alt="o" src={o} />
+      )}
     </div>
   );
 };

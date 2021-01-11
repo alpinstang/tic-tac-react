@@ -13,6 +13,11 @@ td {
   height: 150px;
   width: 150px;
   opacity: 0;
+
+  img {
+    width: 90%;
+    height: auto;
+  }
 }
 
 td:nth-child(3) {

@@ -5,6 +5,9 @@ import Rodal from "rodal";
 import "rodal/lib/rodal.css";
 import Confetti from "react-dom-confetti";
 
+import x from "../../assets/images/x.png";
+import o from "../../assets/images/o.png";
+
 const config = {
   angle: "120",
   spread: 360,
@@ -32,6 +35,7 @@ class Board extends React.Component {
       count: 0,
       visible: false,
       winner: "Nobody",
+      filled: [],
     };
   }
 
@@ -48,6 +52,15 @@ class Board extends React.Component {
   }
 
   update = (e) => {
+    if (this.state.filled.includes(e.target.id)) {
+      if (this.state.count % 2 === 0) {
+        this.checkForWinner(this.state.playerOne, this.state.currentPlayer);
+      } else {
+        this.checkForWinner(this.state.playerOne, this.state.currentPlayer);
+      }
+      return;
+    }
+
     let i = parseInt(e.target.className);
     let array = [];
     let player,
@@ -56,13 +69,21 @@ class Board extends React.Component {
       player = "playerOne";
       nextPlayer = "Player Two";
       array = this.state.playerOne;
-      array[i] = e.target.id;
+      array[i] = parseInt(e.target.id);
+      let node = document.createElement("img");
+      node.src = o;
+      node.style = "width: 70%";
+      e.target.appendChild(node);
     } else {
       player = "PlayerTwo";
       nextPlayer = "Player One";
       array = this.state.playerTwo;
-      array[i] = e.target.id;
+      array[i] = parseInt(e.target.id);
+      let node = document.createElement("img");
+      node.src = x;
+      e.target.appendChild(node);
     }
+    this.setState({ filled: e.target.id });
 
     if (this.state.count > 2) {
       this.checkForWinner(array, this.state.currentPlayer);
@@ -76,10 +97,8 @@ class Board extends React.Component {
   };
 
   checkForWinner = (arr, currentPlayer) => {
+    console.log(arr);
     console.log("Checking for winning pattern...");
-    var x_squares = [8, 3, 5, 7];
-
-    arr = x_squares;
 
     for (var i = 0; i < arr.length; i++) {
       for (var j = i + 1; j < arr.length; j++) {
@@ -159,6 +178,7 @@ class Board extends React.Component {
                   className="0"
                   ref={this.myRef}
                 ></td>
+
                 <td
                   onClick={(e) => this.update(e)}
                   id="1"
