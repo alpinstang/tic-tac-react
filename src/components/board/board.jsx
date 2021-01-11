@@ -4,6 +4,7 @@ import Footer from "../footer/footer";
 import Rodal from "rodal";
 import "rodal/lib/rodal.css";
 import Confetti from "react-dom-confetti";
+import victory from "../../assets/images/cat-dance.gif";
 
 import x from "../../assets/images/x.png";
 import o from "../../assets/images/o.png";
@@ -49,6 +50,8 @@ class Board extends React.Component {
 
   hide() {
     this.setState({ visible: false });
+    window.location.reload();
+    return false;
   }
 
   update = (e) => {
@@ -86,7 +89,10 @@ class Board extends React.Component {
     this.setState({ filled: e.target.id });
 
     if (this.state.count > 2) {
-      this.checkForWinner(array, this.state.currentPlayer);
+      let result = this.checkForWinner(array, this.state.currentPlayer);
+      if (result) {
+        this.gameOver(this.state.currentPlayer);
+      }
     }
 
     this.setState({
@@ -97,21 +103,33 @@ class Board extends React.Component {
   };
 
   checkForWinner = (arr, currentPlayer) => {
-    console.log(arr);
-    console.log("Checking for winning pattern...");
-
-    for (var i = 0; i < arr.length; i++) {
-      for (var j = i + 1; j < arr.length; j++) {
-        for (var k = j + 1; k < arr.length; k++) {
-          if (arr[i] + arr[j] + arr[k] === 15) {
-            console.log("Winner is " + currentPlayer);
-            this.gameOver(currentPlayer);
-            return [arr[i], arr[j], arr[k]];
-          }
-        }
-      }
+    //check horizontal
+    if (arr[0] + arr[1] + arr[2] === 15) {
+      return currentPlayer;
     }
-    console.log("No winner.");
+    if (arr[3] + arr[4] + arr[5] === 15) {
+      return currentPlayer;
+    }
+    if (arr[6] + arr[7] + arr[8] === 15) {
+      return currentPlayer;
+    }
+    //check vertical
+    if (arr[0] + arr[3] + arr[6] === 15) {
+      return currentPlayer;
+    }
+    if (arr[1] + arr[4] + arr[7] === 15) {
+      return currentPlayer;
+    }
+    if (arr[2] + arr[5] + arr[8] === 15) {
+      return currentPlayer;
+    }
+    //check diagonal
+    if (arr[0] + arr[4] + arr[8] === 15) {
+      return currentPlayer;
+    }
+    if (arr[6] + arr[4] + arr[2] === 15) {
+      return currentPlayer;
+    }
     return false;
   };
 
@@ -174,14 +192,14 @@ class Board extends React.Component {
               <tr>
                 <td
                   onClick={(e) => this.update(e)}
-                  id="8"
+                  id="2"
                   className="0"
                   ref={this.myRef}
                 ></td>
 
                 <td
                   onClick={(e) => this.update(e)}
-                  id="1"
+                  id="7"
                   className="1"
                   ref={this.myRef}
                 ></td>
@@ -193,16 +211,16 @@ class Board extends React.Component {
                 ></td>
               </tr>
               <tr>
-                <td onClick={(e) => this.update(e)} id="3" className="3"></td>
+                <td onClick={(e) => this.update(e)} id="9" className="3"></td>
                 <td onClick={(e) => this.update(e)} id="5" className="4">
                   <Confetti active={visible} config={config} />
                 </td>
-                <td onClick={(e) => this.update(e)} id="7" className="5"></td>
+                <td onClick={(e) => this.update(e)} id="1" className="5"></td>
               </tr>
               <tr>
                 <td onClick={(e) => this.update(e)} id="4" className="6"></td>
-                <td onClick={(e) => this.update(e)} id="9" className="7"></td>
-                <td onClick={(e) => this.update(e)} id="2" className="8"></td>
+                <td onClick={(e) => this.update(e)} id="3" className="7"></td>
+                <td onClick={(e) => this.update(e)} id="8" className="8"></td>
               </tr>
             </tbody>
           </table>
@@ -225,8 +243,14 @@ class Board extends React.Component {
           <h3>Congratulations!</h3>
 
           <div class="row">
-            <div class="column">IMAGE</div>
-            <div class="column">Player {winner} won the game!</div>
+            <div class="column">
+              <img
+                style={{ width: "100%", marginTop: "-15px" }}
+                alt="Victory"
+                src={victory}
+              />
+            </div>
+            <div class="column">{winner} won the game!</div>
           </div>
         </Rodal>
       </div>
